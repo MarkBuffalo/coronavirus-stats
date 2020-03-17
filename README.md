@@ -164,3 +164,170 @@ This is mostly due to the way I designed the program. This was created in a hurr
 - Washington
 - Wisconsin
 - Wyoming
+
+
+# Valid Countries
+
+- Afghanistan
+- Albania
+- Algeria
+- Andorra
+- Antigua and Barbuda
+- Argentina
+- Armenia
+- Aruba
+- Australia
+- Austria
+- Azerbaijan
+- Bahamas
+- Bahrain
+- Bangladesh
+- Belarus
+- Belgium
+- Benin
+- Bhutan
+- Bolivia
+- Bosnia and Herzegovina
+- Brazil
+- Brunei
+- Bulgaria
+- Burkina Faso
+- Cambodia
+- Cameroon
+- Canada
+- CAR
+- Cayman Islands
+- Channel Islands
+- Chile
+- China
+- Colombia
+- Congo
+- Costa Rica
+- Croatia
+- Cuba
+- Curaçao
+- Cyprus
+- Czechia
+- Denmark
+- Diamond Princess
+- Dominican Republic
+- DRC
+- Ecuador
+- Egypt
+- Equatorial Guinea
+- Estonia
+- Eswatini
+- Ethiopia
+- Faeroe Islands
+- Finland
+- France
+- French Guiana
+- French Polynesia
+- Gabon
+- Georgia
+- Germany
+- Ghana
+- Gibraltar
+- Greece
+- Greenland
+- Guadeloupe
+- Guam
+- Guatemala
+- Guinea
+- Guyana
+- Honduras
+- Hong Kong
+- Hungary
+- Iceland
+- India
+- Indonesia
+- Iran
+- Iraq
+- Ireland
+- Israel
+- Italy
+- Ivory Coast
+- Jamaica
+- Japan
+- Jordan
+- Kazakhstan
+- Kenya
+- Kuwait
+- Latvia
+- Lebanon
+- Liberia
+- Liechtenstein
+- Lithuania
+- Luxembourg
+- Macao
+- Malaysia
+- Maldives
+- Malta
+- Martinique
+- Mauritania
+- Mayotte
+- Mexico
+- Moldova
+- Monaco
+- Mongolia
+- Morocco
+- Namibia
+- Nepal
+- Netherlands
+- New Zealand
+- Nigeria
+- North Macedonia
+- Norway
+- Oman
+- Pakistan
+- Palestine
+- Panama
+- Paraguay
+- Peru
+- Philippines
+- Poland
+- Portugal
+- Puerto Rico
+- Qatar
+- Réunion
+- Romania
+- Russia
+- Rwanda
+- S. Korea
+- Saint Lucia
+- Saint Martin
+- San Marino
+- Saudi Arabia
+- Senegal
+- Serbia
+- Seychelles
+- Singapore
+- Slovakia
+- Slovenia
+- Somalia
+- South Africa
+- Spain
+- Sri Lanka
+- St. Barth
+- St. Vincent Grenadines
+- Sudan
+- Suriname
+- Sweden
+- Switzerland
+- Taiwan
+- Tanzania
+- Thailand
+- Togo
+- Trinidad and Tobago
+- Tunisia
+- Turkey
+- U.S. Virgin Islands
+- UAE
+- UK
+- Ukraine
+- Uruguay
+- USA
+- Uzbekistan
+- Vatican City
+- Venezuela
+- Vietnam
