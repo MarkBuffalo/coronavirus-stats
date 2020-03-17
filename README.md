@@ -4,10 +4,15 @@
 
 This is a bot for discord that's designed to help you get updated information on current coronavirus statistics. If you don't read this README, you're going to have a bad time. 
 
+# Requirements
+
+- python3.6+
+- pip3
+
 # Install
 
 ```
-pip install -r requirements.txt
+$ pip3 install -r requirements.txt
 ```
 This guide assumes you know how to set up and run a discord bot. That is unfortunately beyond the scope of this readme, but I'll give you some TLDR steps:
 
