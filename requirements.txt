@@ -1,0 +1,8 @@
+urllib3
+requests
+selenium
+discord.py
+beautifulsoup4
+discord
+python-dotenv
+geckodriver-autoinstaller
