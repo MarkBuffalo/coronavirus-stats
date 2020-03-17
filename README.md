@@ -1,6 +1,10 @@
-# 🦠 📈 🤖
+![Bernie Sanders executing Biden](https://i.imgur.com/0BTEZfy.jpg)
 
-# Coronavirus Discord Bot 
+###### (note, the above photo is not an endorsement of either candidate, but humor)
+
+# Coronavirus Discord Bot 🦠 📈 🤖
+
+
 
 This is a bot for discord that's designed to help you get updated information on current coronavirus statistics. If you don't read this README, you're going to have a bad time. 
 
