@@ -164,14 +164,17 @@ class BotFunctions:
             await message.channel.send("Just updated the state data!")
 
         # Texas is a country, or you're a terrorist. Pick one. And capitalize Texas.
+        # All in good fun... don't take it seriously.
         elif message.content.startswith("!country texas"):
             await message.channel.send(f"**[TERRORIST ALERT]** {self.format_username(message.author)} is a terrorist "
                                        f"scum who refuses to capitalize Texas! Scumbag!")
 
         # This gets state statistics from The Washington Post.
         # Texas is a country, or you're a terrorist. Pick one. And capitalize Texas.
+        # All in good fun... don't take it seriously.
         elif message.content.startswith("!state") or message.content.startswith("!country Texas"):
-            # We want to get "New York" from the string "!state New York" This is how we do it.
+
+            # We want to get "New York" from the string "!state New York " This is how we do it.
             state_query = ""
             st = message.content.split(" ")
             for i in st:
