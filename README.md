@@ -1,6 +1,6 @@
 ![Bernie Sanders executing Biden](https://i.imgur.com/0BTEZfy.jpg)
 
-###### (note, the above photo is not an endorsement of either candidate, but humor)
+###### (note, the above photo is not an endorsement or dislike of either candidate, but humor; I'm not interested in politics here)
 
 # Coronavirus Discord Bot 🦠 📈 🤖
 
