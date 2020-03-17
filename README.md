@@ -111,7 +111,7 @@ This is mostly due to the way I designed the program. This was created in a hurr
 
 # Valid States and Countries
 
-If you're having trouble finding states, regions, territories or countries, check the below list:
+If you're having trouble finding states, regions, territories or countries to use with `!state` or `!country`, check the below list to make sure you're spelling it according to the way that the host websites are displaying them:
 
 ## Valid States
 
