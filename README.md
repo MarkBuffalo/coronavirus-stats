@@ -109,7 +109,11 @@ This is mostly due to the way I designed the program. This was created in a hurr
 - `South Korea` exists, but it's  `S. Korea`
 
 
-# Valid States
+# Valid States and Countries
+
+If you're having trouble finding states, regions, territories or countries, check the below list:
+
+## Valid States
 
 - Alabama
 - Alaska
@@ -166,7 +170,7 @@ This is mostly due to the way I designed the program. This was created in a hurr
 - Wyoming
 
 
-# Valid Countries
+## Valid Countries
 
 - Afghanistan
 - Albania
