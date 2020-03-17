@@ -1,4 +1,4 @@
-# Coronavirus Discord Bot
+# 🦠 Coronavirus Discord Bot 🤖
 
 This is a bot for discord that's designed to help you get updated information on current coronavirus statistics.
 
