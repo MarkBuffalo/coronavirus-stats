@@ -35,7 +35,7 @@ class CommandParser:
                 start = 1 if ("<a" in first or "<span" in first) else 0
                 end = 9 if ("<a" in first or "<span" in first) else 8
                 for j in range(start, end):
-                    r = str(rows[counter].findChildren()[j].contents)
+                    r = str(rows[counter].findChildren()[j].contents).replace(" ", "").replace("\\n", " ")
                     new_list.append(r)
             counter += 1
         return new_list
@@ -86,9 +86,9 @@ class GetStateData:
     def update_state_data(self):
         self.browser.get("https://www.washingtonpost.com/world/2020/01/22/mapping-spread-new-coronavirus/?arc404=true")
 
-    def get_state_data(self, state_query):
+    def get_state_data(self, state_query, table_name):
         soup = BeautifulSoup(self.browser.page_source, "html.parser")
-        table = soup.findChildren("div", {"id": "us-case-count-table"})
+        table = soup.findChildren("div", {"id": table_name})
         rows = table[0].findChildren("div", {"class": "table-row"})
 
         state_list = []
@@ -182,7 +182,7 @@ class BotFunctions:
                     state_query += str(i + " ")
 
             # This gets the data from the state list.
-            state_list = self.states.get_state_data(state_query)
+            state_list = self.states.get_state_data(state_query, "us-case-count-table")
 
             # Is the list above non-empty?
             if len(state_list) > 0:
