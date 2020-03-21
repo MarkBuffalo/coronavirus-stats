@@ -1,5 +1,4 @@
 import os
-import random
 import discord
 import requests
 import urllib3
@@ -14,10 +13,6 @@ class CommandParser:
     def get_new_stats(self):
         self.response = requests.get("https://www.worldometers.info/coronavirus/")
         return self.get_main_stats(self.response.text) if self.response.status_code == 200 else ""
-
-    @staticmethod
-    def clean_str(text):
-        return int(float(str(text.strip().replace(",", "").replace("+", ""))))
 
     @staticmethod
     def traverse_html(markup, country):
