@@ -41,6 +41,19 @@ This guide assumes you know how to set up and run a discord bot. That is unfortu
 5. Update the `.env` file with your token and server ID.
 
 
+# Forking
+
+If you want to easily add your own commands, it's now very easy. You can just look at this function:
+
+- `def get_master_command_dict(self):`
+
+Just update the dictionary with a command and a value. 
+
+The key will be the trigger, e.g.: "!state", and the value will point to a function that parses whatever you want. 
+
+All of this assumes the `message` parameter will be passed to the function. See `def on_message(self, message)` for how it's parsed using `await value(message)`. This is the only thing you need to update.
+
+
 # Usage:
 
 ## To run: 
