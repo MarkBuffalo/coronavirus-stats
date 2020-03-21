@@ -40,19 +40,17 @@ This guide assumes you know how to set up and run a discord bot. That is unfortu
 
 # Usage:
 
-To run: 
+## To run: 
 
 ```$ python3 coronavirus-stats-discord-bot.py```
 
-To use in the server...
+## To use in the server...
 
-
-**To get all global statistics:**
+### To get all global statistics
 
 ```!stats``` or ```!plague```
 
 **Returns:**
-
 
 ```
 Global Statistics
@@ -68,10 +66,7 @@ Total Closed Cases: 87,056
 Closed because recovered/discharged: 79,883
 Closed because of deaths: 7,173
 ```
-
-
-**For countries:**
-
+### For countries:
 
 ```
 !country Italy
@@ -92,15 +87,11 @@ Total Recovered: 2749
 Active Cases:  23073 
 Serious/Critical: 1851 
 ```
-
-**For Individual U.S. States:**
-
+### For Individual U.S. States:
 
 ```!state Texas```
 
-
 **Returns**:
-
 
 ```
 Coronavirus Stats for Texas
@@ -114,11 +105,9 @@ Active Cases: 420
 Death Rate: 1.17%
 Recovery Rate: 0.93%
 ```
-
 # Missing Countries
 
 - `South Korea` exists, but it's  `S. Korea`
-
 
 # Valid States and Countries
 
