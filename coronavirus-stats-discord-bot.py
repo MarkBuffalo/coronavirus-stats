@@ -261,7 +261,7 @@ class BotFunctions:
                 country_dict = self.cmd.get_country_stats(response.text, country_string.strip())
 
                 # We got something, right?
-                if len(country_dict) > 0:
+                if country_dict:
                     stat_string = bf.get_result_string(country_dict,
                                                        f"Coronavirus Statistics for {country_string.strip()}")
 
