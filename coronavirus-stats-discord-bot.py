@@ -5,7 +5,6 @@ import requests
 import urllib3
 from dotenv import load_dotenv
 from bs4 import BeautifulSoup
-from selenium import webdriver
 
 
 class CommandParser:
@@ -42,8 +41,8 @@ class CommandParser:
 
     @staticmethod
     def get_main_stats(text):
-        corona_cases = \
-            text.split('<h1>Coronavirus Cases:</h1>')[1].split('<span style="color:#aaa">')[1].split('</span>')[0]
+        # This code is old, and without the beautiful soup.
+        corona_cases = text.split('<h1>Coronavirus Cases:</h1>')[1].split('<span style="color:#aaa">')[1].split('</span>')[0]
         corona_deaths = text.split('<h1>Deaths:</h1>')[1].split('<span>')[1].split('</span>')[0]
         corona_recoveries = text.split('<h1>Recovered:</h1>')[1].split('<span>')[1].split('</span>')[0]
 
@@ -77,28 +76,36 @@ class CommandParser:
 
 class GetStateData:
     def __init__(self):
-        self.options = webdriver.FirefoxOptions()
-        self.options.add_argument('-headless')
-        self.browser = webdriver.Firefox(options=self.options)
-        self.update_state_data()
+        self.request = ""
         pass
 
-    def update_state_data(self):
-        self.browser.get("https://www.washingtonpost.com/world/2020/01/22/mapping-spread-new-coronavirus/?arc404=true")
-
     def get_state_data(self, state_query, table_name):
-        soup = BeautifulSoup(self.browser.page_source, "html.parser")
-        table = soup.findChildren("div", {"id": table_name})
-        rows = table[0].findChildren("div", {"class": "table-row"})
+        self.request = requests.get("https://www.worldometers.info/coronavirus/country/us/")
+        soup = BeautifulSoup(self.request.text, "html.parser")
+        table = soup.findChildren("table", {"id": table_name})
+        rows = table[0].findChildren("tr")
 
         state_list = []
         for i in rows:
-            if str(state_query).strip().lower() in str(i).lower():
-                state = i.findChildren("span")[0].contents
-                cases = i.findChildren("span")[1].contents
-                deaths = i.findChildren("span")[2].contents
-                state_list.append([state, cases, deaths])
-        return state_list
+            if str(state_query).strip().lower() in str(i).strip().lower():
+                # Get the tds within the tr.
+                td = i.findChildren("td")
+
+                # And populate.
+                state = bf.cleanse_state_string(td[0].contents)
+                total_cases = bf.cleanse_state_string(td[1].contents)
+                new_cases = bf.cleanse_state_string(td[2].contents)
+                total_deaths = bf.cleanse_state_string(td[3].contents)
+                new_deaths = bf.cleanse_state_string(td[4].contents)
+                total_recovered = bf.cleanse_state_string(td[5].contents)
+                active_cases = bf.cleanse_state_string(td[6].contents)
+                death_rate = bf.get_rate(total_deaths, total_cases)
+                recovery_rate = bf.get_rate(total_recovered, total_cases)
+
+                state_list.append([state, total_cases, new_cases, total_deaths, new_deaths, total_recovered,
+                                   active_cases, death_rate, recovery_rate])
+                break
+        return state_list if len(state_list) > 0 else None
 
 
 class BotFunctions:
@@ -126,7 +133,14 @@ class BotFunctions:
     # This is dumb, and likely unnecessary at this time. Doing it anyway because of reasons.
     @staticmethod
     def cleanse_string(str_to_cleanse):
-        return str(str_to_cleanse).replace("['", "").replace("']", "").replace(",", "")
+        return str(str_to_cleanse).replace("['", "").replace("']", "").replace(",", "").strip()
+
+    @staticmethod
+    def cleanse_state_string(str_to_cleanse):
+        # We're cleansing 2 spaces due to the way the site is formatted.
+        return str(str_to_cleanse).replace("  ", "").replace("\\n", "").\
+            replace("['", "").replace("']", "").\
+            replace("<strong>", "").replace("</strong>", "").strip()
 
     # Gets the rate of deaths/recoveries/salads per face/whatever.
     def get_rate(self, bad, total):
@@ -157,12 +171,6 @@ class BotFunctions:
         if message.author == self.client.user:
             return
 
-        # This updates the web stats because of strange design issues which prevent a full population of
-        # statistics on slow connections, leading to zero data returning.
-        if message.content == "!update":
-            self.states.update_state_data()
-            await message.channel.send("Just updated the state data!")
-
         # Texas is a country, or you're a terrorist. Pick one. And capitalize Texas.
         # All in good fun... don't take it seriously.
         elif message.content.startswith("!country texas"):
@@ -182,21 +190,35 @@ class BotFunctions:
                     state_query += str(i + " ")
 
             # This gets the data from the state list.
-            state_list = self.states.get_state_data(state_query, "us-case-count-table")
+            state_list = self.states.get_state_data(state_query, "usa_table_countries_today")
+            print(state_list)
 
             # Is the list above non-empty?
             if len(state_list) > 0:
                 # Now we want to build the state string from the list above, and return it in human-readable format.
                 state_string = f"**Coronavirus Stats for {state_query.strip()}**```"
+
+                print(state_list)
+
                 state = self.cleanse_string(state_list[0][0])
-                cases = self.cleanse_string(state_list[0][1])
-                deaths = self.cleanse_string(state_list[0][2])
-                death_rate = self.get_rate(deaths, cases)
+                total_cases = self.cleanse_string(state_list[0][1])
+                new_cases = self.cleanse_string(state_list[0][2])
+                total_deaths = self.cleanse_string(state_list[0][3])
+                new_deaths = self.cleanse_string(state_list[0][4])
+                total_recovered = self.cleanse_string(state_list[0][5])
+                active_cases = self.cleanse_string(state_list[0][6])
+                death_rate = self.cleanse_string(state_list[0][7])
+                recovery_rate = self.cleanse_string(state_list[0][8])
 
                 state_string += f"State: {state}\n" \
-                                f"Cases: {cases}\n" \
-                                f"Deaths: {deaths}\n" \
-                                f"Death Rate: {death_rate}"
+                                f"Total Cases: {total_cases}\n" \
+                                f"New Cases: {new_cases}\n" \
+                                f"Total Deaths: {total_deaths}\n" \
+                                f"New Deaths: {new_deaths}\n" \
+                                f"Total Recovered: {total_recovered}\n" \
+                                f"Active Cases: {active_cases}\n" \
+                                f"Death Rate: {death_rate}\n" \
+                                f"Recovery Rate: {recovery_rate}\n"
 
                 await message.channel.send(state_string + "```")
             # Annnnnnd it's empty.
@@ -240,7 +262,7 @@ class BotFunctions:
 
                 # We got something, right?
                 if len(country_list) > 0:
-                    stat_string = f'**Coronavirus Statistics for {country_string.strip()}**\n```'
+                    stat_string = f"**Coronavirus Statistics for {country_string.strip()}**\n```"
                     stat_string += f"Country: {country_list[0]}\n"
                     stat_string += f"Total Cases: {country_list[1]}\n"
                     stat_string += f"New Cases: {country_list[2]}\n"
