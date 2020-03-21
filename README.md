@@ -96,18 +96,23 @@ Serious/Critical: 1851
 **For Individual U.S. States:**
 
 
-```!state Washington```
+```!state Texas```
 
 
 **Returns**:
 
 
 ```
-Coronavirus Stats for Washington
-State: Washington
-Cases: 904
-Deaths: 48
-Death Rate: 5.31%
+Coronavirus Stats for Texas
+State: Texas
+Total Cases: 429
+New Cases: +35
+Total Deaths: 5
+New Deaths: 
+Total Recovered: 4
+Active Cases: 420
+Death Rate: 1.17%
+Recovery Rate: 0.93%
 ```
 
 # Missing Countries
