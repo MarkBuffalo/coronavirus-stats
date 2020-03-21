@@ -84,27 +84,28 @@ class GetStateData:
         table = soup.findChildren("table", {"id": table_name})
         rows = table[0].findChildren("tr")
 
-        state_list = []
         for i in rows:
             if str(state_query).strip().lower() in str(i).strip().lower():
                 # Get the tds within the tr.
                 td = i.findChildren("td")
 
                 # And populate.
-                state = bf.cleanse_state_string(td[0].contents)
                 total_cases = bf.cleanse_state_string(td[1].contents)
-                new_cases = bf.cleanse_state_string(td[2].contents)
                 total_deaths = bf.cleanse_state_string(td[3].contents)
-                new_deaths = bf.cleanse_state_string(td[4].contents)
                 total_recovered = bf.cleanse_state_string(td[5].contents)
-                active_cases = bf.cleanse_state_string(td[6].contents)
-                death_rate = bf.get_rate(total_deaths, total_cases)
-                recovery_rate = bf.get_rate(total_recovered, total_cases)
 
-                state_list.append([state, total_cases, new_cases, total_deaths, new_deaths, total_recovered,
-                                   active_cases, death_rate, recovery_rate])
-                break
-        return state_list if len(state_list) > 0 else None
+                return {
+                    "State": bf.cleanse_state_string(td[0].contents),
+                    "Total Cases": bf.cleanse_state_string(td[1].contents),
+                    "New Cases": bf.cleanse_state_string(td[2].contents),
+                    "Total Deaths": bf.cleanse_state_string(td[3].contents),
+                    "New Deaths": bf.cleanse_state_string(td[4].contents),
+                    "Total Recovered": total_recovered,
+                    "Active Cases": bf.cleanse_state_string(td[6].contents),
+                    "Death Rate": bf.get_rate(total_deaths, total_cases),
+                    "Recovery Rate": bf.get_rate(total_recovered, total_cases)
+                }
+        return None
 
 
 class BotFunctions:
@@ -189,36 +190,13 @@ class BotFunctions:
                     state_query += str(i + " ")
 
             # This gets the data from the state list.
-            state_list = self.states.get_state_data(state_query, "usa_table_countries_today")
-            print(state_list)
-
+            state_dict = self.states.get_state_data(state_query, "usa_table_countries_today")
             # Is the list above non-empty?
-            if len(state_list) > 0:
+            if state_dict:
                 # Now we want to build the state string from the list above, and return it in human-readable format.
                 state_string = f"**Coronavirus Stats for {state_query.strip()}**```"
-
-                print(state_list)
-
-                state = self.cleanse_string(state_list[0][0])
-                total_cases = self.cleanse_string(state_list[0][1])
-                new_cases = self.cleanse_string(state_list[0][2])
-                total_deaths = self.cleanse_string(state_list[0][3])
-                new_deaths = self.cleanse_string(state_list[0][4])
-                total_recovered = self.cleanse_string(state_list[0][5])
-                active_cases = self.cleanse_string(state_list[0][6])
-                death_rate = self.cleanse_string(state_list[0][7])
-                recovery_rate = self.cleanse_string(state_list[0][8])
-
-                state_string += f"State: {state}\n" \
-                                f"Total Cases: {total_cases}\n" \
-                                f"New Cases: {new_cases}\n" \
-                                f"Total Deaths: {total_deaths}\n" \
-                                f"New Deaths: {new_deaths}\n" \
-                                f"Total Recovered: {total_recovered}\n" \
-                                f"Active Cases: {active_cases}\n" \
-                                f"Death Rate: {death_rate}\n" \
-                                f"Recovery Rate: {recovery_rate}\n"
-
+                for k, v in state_dict.items():
+                    state_string += k + ": " + v + "\n"
                 await message.channel.send(state_string + "```")
             # Annnnnnd it's empty.
             else:
