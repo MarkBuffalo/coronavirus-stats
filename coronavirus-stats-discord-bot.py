@@ -238,11 +238,11 @@ class BotFunctions:
             except requests.exceptions.SSLError:
                 await message.channel.send(
                     "Attempted Man in the Middle attack detected: Incorrect HTTPS response received. "
-                    "Rodent security does not like. :8(")
+                    "Rodent security does not like. ")
             except urllib3.exceptions.MaxRetryError:
-                await message.channel.send("There was an error attempting to connect to the the stats server. :8(")
+                await message.channel.send("There was an error attempting to connect to the the stats server. ")
             except TimeoutError:
-                await message.channel.send("There was an error attempting to connect to the the stats server. :8(")
+                await message.channel.send("There was an error attempting to connect to the the stats server. ")
 
         # When you want stats for a specific country.
         elif message.content.startswith("!country"):
@@ -279,15 +279,15 @@ class BotFunctions:
                 else:
                     await message.channel.send(
                         f"Sorry, {self.format_username(message.author)}! I can't find the "
-                        f"country \"{country_string.strip()}\". :8(")
+                        f"country \"{country_string.strip()}\". ")
             except requests.exceptions.SSLError:
                 await message.channel.send(
                     "Attempted Man in the Middle attack detected: "
-                    "Incorrect HTTPS response received. Rodent security does not like. :8(")
+                    "Incorrect HTTPS response received. Rodent security does not like. ")
             except urllib3.exceptions.MaxRetryError:
-                await message.channel.send("There was an error attempting to connect to the the stats server. :8(")
+                await message.channel.send("There was an error attempting to connect to the the stats server. ")
             except TimeoutError:
-                await message.channel.send("There was an error attempting to connect to the the stats server. :8(")
+                await message.channel.send("There was an error attempting to connect to the the stats server. ")
 
         elif message.content == 'raise-exception':
             raise discord.DiscordException
