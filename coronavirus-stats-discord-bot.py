@@ -77,7 +77,6 @@ class CommandParser:
 class GetStateData:
     def __init__(self):
         self.request = ""
-        pass
 
     def get_state_data(self, state_query, table_name):
         self.request = requests.get("https://www.worldometers.info/coronavirus/country/us/")
