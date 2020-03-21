@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from bs4 import BeautifulSoup
 
 
-class CommandParser:
+class CountryData:
     def __init__(self):
         self.response = ""
 
@@ -85,7 +85,7 @@ class CommandParser:
         }
 
 
-class GetStateData:
+class StateData:
     def __init__(self):
         self.request = ""
 
@@ -131,8 +131,8 @@ class BotFunctions:
         self.client = discord.Client()
 
         # Instantiate our own classes so we can do the thing.
-        self.cmd = CommandParser()
-        self.states = GetStateData()
+        self.cd = CountryData()
+        self.states = StateData()
 
         # Setup event handlers for bot functions instead of using decorators.
         self.on_ready = self.client.event(self.on_ready)
@@ -232,7 +232,7 @@ class BotFunctions:
         # When you want the global statistics.
         elif message.content == '!stats' or message.content == "!plague":
             try:
-                stat_dict = self.cmd.get_new_stats()
+                stat_dict = self.cd.get_new_stats()
                 if stat_dict:
                     stat_string = bf.get_result_string(stat_dict, f"Global Statistics")
                     stat_string += "Do you want more stats by Country? Use `!country <name>`"
@@ -258,7 +258,7 @@ class BotFunctions:
                 # We're going to a new request each time because, well... it's more stable than the Washington Post
                 # since we won't need to run geckodriver to get the contents.
                 response = requests.get("https://www.worldometers.info/coronavirus/")
-                country_dict = self.cmd.get_country_stats(response.text, country_string.strip())
+                country_dict = self.cd.get_country_stats(response.text, country_string.strip())
 
                 # We got something, right?
                 if country_dict:
@@ -280,7 +280,7 @@ class BotFunctions:
             except TimeoutError:
                 await message.channel.send("There was an error attempting to connect to the the stats server. ")
 
-        elif message.content == 'raise-exception':
+        elif message.content == "raise-exception":
             raise discord.DiscordException
 
 
