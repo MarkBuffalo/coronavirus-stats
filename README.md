@@ -35,10 +35,8 @@ This guide assumes you know how to set up and run a discord bot. That is unfortu
 1. [Create a bot for Discord](https://discordapp.com/developers/applications/) on their developer page.
 2. Get your token and server id
 3. Visit the generated URL and allow it access to your discord server.
-4. Create an `.env` file in the same folder as `coronavirus-stats-discord-bot.py`
+4. Rename `.env-sample` to `.env`
 5. Update the `.env` file with your token and server ID.
-
-
 
 
 # Usage:
