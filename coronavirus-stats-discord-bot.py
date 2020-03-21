@@ -18,8 +18,8 @@ class CountryData:
     def get_country_stats(markup, country):
         soup = BeautifulSoup(markup, "html.parser")
         # Only get things from the table so we can ignore the rest of the html.
-        tables = soup.findChildren('table')
-        rows = tables[0].findChildren('tr')
+        tables = soup.findChildren("table")
+        rows = tables[0].findChildren("tr")
 
         new_list = []
         counter = 0
@@ -52,8 +52,10 @@ class CountryData:
 
     @staticmethod
     def get_main_stats(text):
-        # This code is old, and without the beautiful soup.
-        corona_cases = text.split('<h1>Coronavirus Cases:</h1>')[1].split('<span style="color:#aaa">')[1].split('</span>')[0]
+        # This code is old, and does not use BeautifulSoup. Will get around to fixing that some day.
+        corona_cases = text.split('<h1>Coronavirus Cases:</h1>')[1].\
+            split('<span style="color:#aaa">')[1].split('</span>')[0]
+
         corona_deaths = text.split('<h1>Deaths:</h1>')[1].split('<span>')[1].split('</span>')[0]
         corona_recoveries = text.split('<h1>Recovered:</h1>')[1].split('<span>')[1].split('</span>')[0]
 
@@ -121,6 +123,97 @@ class StateData:
         return None
 
 
+class BotCommandResults:
+    def __init__(self):
+        self.states = StateData()
+        self.cd = CountryData()
+        pass
+
+    # This will make it much easier to add and call new functions.
+    def get_master_command_dict(self):
+        return {
+            "!country texas": self.expose_terrorist,
+            "!country Texas": self.print_state,
+            "!state": self.print_state,
+            "!stats": self.print_countries,
+            "!plague": self.print_countries,
+            "!country": self.print_country,
+            "!help": self.print_help
+        }
+
+    async def print_help(self, message):
+        command_string = "**Available commands for this bot**```"
+        for key, value in self.get_master_command_dict().items():
+            if " " not in key and "!stats" not in key and "!plague" not in key and "!help" not in key:
+                command_string += f"{key} <{key.split('!')[1]}_name>\n"
+            else:
+                command_string += f"{key}\n"
+        command_string += "```"
+        await message.channel.send(command_string)
+
+    async def print_state(self, message):
+        state_query = bf.get_query_string(message.content)
+        # This gets the data from the state list.
+        state_dict = self.states.get_state_data(state_query, "usa_table_countries_today")
+        # Is the list above non-empty?
+        if state_dict:
+            # Now we want to build the state string from the list above, and return it in human-readable format.
+            state_string = bf.get_result_string(state_dict, f"Coronavirus Stats for {state_query.strip()}")
+            await message.channel.send(state_string)
+        # Annnnnnd it's empty.
+        else:
+            await message.channel.send("There was an error acquiring the state list")
+
+    async def print_countries(self, message):
+        try:
+            stat_dict = self.cd.get_new_stats()
+            if stat_dict:
+                stat_string = bf.get_result_string(stat_dict, f"Global Statistics")
+                stat_string += "Do you want more stats by Country? Use `!country <name>`"
+                await message.channel.send(stat_string)
+            else:
+                await message.channel.send(f"Unable to update global statistics.")
+        except requests.exceptions.SSLError:
+            await message.channel.send("Potential Man in the Middle attack attempted: Bad HTTPS Response.")
+        except urllib3.exceptions.MaxRetryError:
+            await message.channel.send("There was an error attempting to connect to the the stats server. ")
+        except TimeoutError:
+            await message.channel.send("There was an error attempting to connect to the the stats server. ")
+
+    async def print_country(self, message):
+        try:
+            # This builds our country string. e.g.: "!country Bosnia and Herzegovina "
+            # becomes "Bosnia and Herzegovina"
+            country_string = bf.get_query_string(message.content)
+
+            # Get info from the page on worldometers.
+            response = requests.get("https://www.worldometers.info/coronavirus/")
+            country_dict = self.cd.get_country_stats(response.text, country_string.strip())
+
+            # We got something, right?
+            if country_dict:
+                stat_string = bf.get_result_string(country_dict,
+                                                   f"Coronavirus Statistics for {country_string.strip()}")
+
+                await message.channel.send(bf.cleanse_string(stat_string))
+            # Nope, we didn't.
+            else:
+                await message.channel.send(
+                    f"Sorry, {bf.format_username(message.author)}! I can't find the "
+                    f"country \"{country_string.strip()}\". ")
+        except requests.exceptions.SSLError:
+            await message.channel.send("Potential Man in the Middle attack attempted: Bad HTTPS Response.")
+        except urllib3.exceptions.MaxRetryError:
+            await message.channel.send("There was an error attempting to connect to the the stats server. ")
+        except TimeoutError:
+            await message.channel.send("There was an error attempting to connect to the the stats server. ")
+
+    @staticmethod
+    async def expose_terrorist(message):
+        await message.channel.send(f"**[TERRORIST ALERT]** {bf.format_username(message.author)} is a terrorist "
+                                   f"scum who refuses to capitalize Texas! Scumbag!")
+
+
 class BotFunctions:
     def __init__(self):
         # Load the environment variables.
@@ -131,8 +224,7 @@ class BotFunctions:
         self.client = discord.Client()
 
         # Instantiate our own classes so we can do the thing.
-        self.cd = CountryData()
-        self.states = StateData()
+        self.cmd = BotCommandResults()
 
         # Setup event handlers for bot functions instead of using decorators.
         self.on_ready = self.client.event(self.on_ready)
@@ -208,76 +300,13 @@ class BotFunctions:
         if message.author == self.client.user:
             return
 
-        # Texas is a country, or you're a terrorist. Pick one. And capitalize Texas.
-        # All in good fun... don't take it seriously.
-        elif message.content.startswith("!country texas"):
-            await message.channel.send(f"**[TERRORIST ALERT]** {self.format_username(message.author)} is a terrorist "
-                                       f"scum who refuses to capitalize Texas! Scumbag!")
-
-        # Texas is a country, or you're a terrorist. Pick one. And capitalize Texas.
-        # All in good fun... don't take it seriously.
-        elif message.content.startswith("!state") or message.content.startswith("!country Texas"):
-            state_query = bf.get_query_string(message.content)
-            # This gets the data from the state list.
-            state_dict = self.states.get_state_data(state_query, "usa_table_countries_today")
-            # Is the list above non-empty?
-            if state_dict:
-                # Now we want to build the state string from the list above, and return it in human-readable format.
-                state_string = bf.get_result_string(state_dict, f"Coronavirus Stats for {state_query.strip()}")
-                await message.channel.send(state_string)
-            # Annnnnnd it's empty.
-            else:
-                await message.channel.send("There was an error acquiring the state list")
-
-        # When you want the global statistics.
-        elif message.content == '!stats' or message.content == "!plague":
-            try:
-                stat_dict = self.cd.get_new_stats()
-                if stat_dict:
-                    stat_string = bf.get_result_string(stat_dict, f"Global Statistics")
-                    stat_string += "Do you want more stats by Country? Use `!country <name>`"
-                    await message.channel.send(stat_string)
-                else:
-                    await message.channel.send(f"Unable to update global statistics.")
-            except requests.exceptions.SSLError:
-                await message.channel.send(
-                    "Attempted Man in the Middle attack detected: Incorrect HTTPS response received. "
-                    "Rodent security does not like. ")
-            except urllib3.exceptions.MaxRetryError:
-                await message.channel.send("There was an error attempting to connect to the the stats server. ")
-            except TimeoutError:
-                await message.channel.send("There was an error attempting to connect to the the stats server. ")
-
-        # When you want stats for a specific country.
-        elif message.content.startswith("!country"):
-            try:
-                # This builds our country string. e.g.: "!country Bosnia and Herzegovina "
-                # becomes "Bosnia and Herzegovina"
-                country_string = bf.get_query_string(message.content)
-
-                # Get info from the page on worldometers.
-                response = requests.get("https://www.worldometers.info/coronavirus/")
-                country_dict = self.cd.get_country_stats(response.text, country_string.strip())
-
-                # We got something, right?
-                if country_dict:
-                    stat_string = bf.get_result_string(country_dict,
-                                                       f"Coronavirus Statistics for {country_string.strip()}")
-
-                    await message.channel.send(self.cleanse_string(stat_string))
-                # Nope, we didn't.
-                else:
-                    await message.channel.send(
-                        f"Sorry, {self.format_username(message.author)}! I can't find the "
-                        f"country \"{country_string.strip()}\". ")
-            except requests.exceptions.SSLError:
-                await message.channel.send(
-                    "Attempted Man in the Middle attack detected: "
-                    "Incorrect HTTPS response received. Rodent security does not like. ")
-            except urllib3.exceptions.MaxRetryError:
-                await message.channel.send("There was an error attempting to connect to the the stats server. ")
-            except TimeoutError:
-                await message.channel.send("There was an error attempting to connect to the the stats server. ")
+        # Let's just make an easy-to-edit master list with their accompanying commands, yes?
+        elif message.content.startswith("!"):
+            for key, value in self.cmd.get_master_command_dict().items():
+                if message.content.startswith(key):
+                    await value(message)
+                    # We don't need to continue the loop, we found the key and executed the value.
+                    break
 
         elif message.content == "raise-exception":
             raise discord.DiscordException
