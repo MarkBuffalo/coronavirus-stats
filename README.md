@@ -109,20 +109,6 @@ Deaths: 48
 Death Rate: 5.31%
 ```
 
-
-# Dumb Design Problem
-
-You will occasionally need to type:
-
-```
-!update
-```
-
-In order to update U.S. states. 
-
-This is mostly due to the way I designed the program. This was created in a hurry (<2 hours), so it's not meant to be production quality. 
-
-
 # Missing Countries
 
 - `South Korea` exists, but it's  `S. Korea`
