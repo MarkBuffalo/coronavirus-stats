@@ -18,6 +18,7 @@ Edit `.env-sample` and rename to `.env`
 
 ```
 $ pip3 install -r requirements.txt
+$ python3 coronavirus-stats-discord-bot.py
 ```
 
 ## With Docker:
