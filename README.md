@@ -49,9 +49,9 @@ If you want to easily add your own commands, it's now very easy. You can just lo
 
 Just update the dictionary with a command and a value. 
 
-The key will be the trigger, e.g.: "!state", and the value will point to a function that parses whatever you want. 
+The key will be the trigger, e.g.: `"!state":`, and the `value` will point to a function that does whatever you want. This is the only thing you need to update.
 
-All of this assumes the `message` parameter will be passed to the function. See `def on_message(self, message)` for how it's parsed using `await value(message)`. This is the only thing you need to update.
+All of this assumes the `message` parameter will be passed to the function. See `def on_message(self, message)` for how it's parsed using `await value(message)`. 
 
 
 # Usage:
