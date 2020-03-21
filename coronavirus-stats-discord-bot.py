@@ -256,7 +256,7 @@ class BotFunctions:
     def get_result_string(result_dict, header):
         state_string = f"**{header}**```"
         for k, v in result_dict.items():
-            state_string += k + ": " + v + "\n"
+            state_string += f"{k}: {v}\n"
         state_string += "```"
         return state_string
 
