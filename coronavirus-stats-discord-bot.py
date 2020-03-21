@@ -255,8 +255,7 @@ class BotFunctions:
                 # becomes "Bosnia and Herzegovina"
                 country_string = bf.get_query_string(message.content)
 
-                # We're going to a new request each time because, well... it's more stable than the Washington Post
-                # since we won't need to run geckodriver to get the contents.
+                # Get info from the page on worldometers.
                 response = requests.get("https://www.worldometers.info/coronavirus/")
                 country_dict = self.cd.get_country_stats(response.text, country_string.strip())
 
