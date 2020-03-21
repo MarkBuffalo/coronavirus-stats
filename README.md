@@ -10,8 +10,9 @@ This is a bot for discord that's designed to help you get updated information on
 
 # Install
 
+## Part One
 
-## Without Docker:
+### Without Docker:
 
 Edit `.env-sample` and rename to `.env`
 
@@ -20,7 +21,7 @@ $ pip3 install -r requirements.txt
 $ python3 coronavirus-stats-discord-bot.py
 ```
 
-## With Docker:
+### With Docker:
 
 Edit `.env-sample` and rename to `.env`
 
@@ -28,6 +29,8 @@ Edit `.env-sample` and rename to `.env`
 docker build -t coronavirus-stats .
 docker run -ti coronavirus-stats
 ```
+
+## Part Two 
 
 This guide assumes you know how to set up and run a discord bot. That is unfortunately beyond the scope of this readme, but I'll give you some TLDR steps:
 
