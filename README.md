@@ -2,6 +2,19 @@
 
 This is a bot for discord that's designed to help you get updated information on current coronavirus statistics. If you don't read this README, you're going to have a bad time. 
 
+   * [Requirements](#requirements)
+   * [Install](#install)
+      * [Part One](#part-one)
+         * [Without Docker:](#without-docker)
+         * [With Docker:](#with-docker)
+      * [Part Two](#part-two)
+   * [Forking](#forking)
+   * [Usage](#usage)
+   * [Missing Countries](#missing-countries)
+   * [Valid States and Countries](#valid-states-and-countries)
+      * [Valid States](#valid-states)
+      * [Valid Countries](#valid-countries)
+
 # Requirements
 
 - python3.6+
@@ -12,7 +25,7 @@ This is a bot for discord that's designed to help you get updated information on
 
 ## Part One
 
-### Without Docker:
+### Without Docker
 
 Edit `.env-sample` and rename to `.env`
 
@@ -21,7 +34,7 @@ $ pip3 install -r requirements.txt
 $ python3 coronavirus-stats-discord-bot.py
 ```
 
-### With Docker:
+### With Docker
 
 Edit `.env-sample` and rename to `.env`
 
@@ -54,9 +67,9 @@ The key will be the trigger, e.g.: `"!state":`, and the `value` will point to a 
 All of this assumes the `message` parameter will be passed to the function. See `def on_message(self, message)` for how it's parsed using `await value(message)`. 
 
 
-# Usage:
+# Usage
 
-## To run: 
+## To run
 
 ```$ python3 coronavirus-stats-discord-bot.py```
 
