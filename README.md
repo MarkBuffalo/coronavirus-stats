@@ -6,6 +6,7 @@ This is a bot for discord that's designed to help you get updated information on
 
 - python3.6+
 - pip3
+- docker (optional)
 
 # Install
 
