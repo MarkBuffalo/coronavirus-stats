@@ -44,6 +44,10 @@ This guide assumes you know how to set up and run a discord bot. That is unfortu
 
 ```$ python3 coronavirus-stats-discord-bot.py```
 
+or if using Docker:
+
+```$ docker run -ti coronavirus-stats```
+
 ## To use in the server...
 
 ### To get all global statistics
