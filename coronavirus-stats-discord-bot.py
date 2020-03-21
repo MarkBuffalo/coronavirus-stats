@@ -15,7 +15,7 @@ class CommandParser:
         return self.get_main_stats(self.response.text) if self.response.status_code == 200 else ""
 
     @staticmethod
-    def traverse_html(markup, country):
+    def get_country_stats(markup, country):
         soup = BeautifulSoup(markup, "html.parser")
         # Only get things from the table so we can ignore the rest of the html.
         tables = soup.findChildren('table')
@@ -26,13 +26,29 @@ class CommandParser:
         for row in rows:
             if country.lower() in str(row).lower():
                 first = str(rows[counter].findChildren()[0])
+                # This is due to the formatting.
+                # The index will be 0-8 if it doesn't include "<a" or "<span", otherwise 1-9.
                 start = 1 if ("<a" in first or "<span" in first) else 0
                 end = 9 if ("<a" in first or "<span" in first) else 8
                 for j in range(start, end):
                     r = str(rows[counter].findChildren()[j].contents).replace(" ", "").replace("\\n", " ")
                     new_list.append(r)
             counter += 1
-        return new_list
+
+        # Then we're going to return this list as a reconstructed dictionary
+        # so we can have the same function displaying all results.
+        return {
+            "Country": new_list[0],
+            "Total Cases": new_list[1],
+            "New Cases": new_list[2],
+            "Death Rate": bf.get_rate(new_list[3], new_list[1]),
+            "Recovery Rate": bf.get_rate(new_list[5], new_list[1]),
+            "Total Deaths": new_list[3],
+            "New Deaths": new_list[4],
+            "Total Recovered": new_list[5],
+            "Active Cases": new_list[6],
+            "Serious/Critical": new_list[7],
+        }
 
     @staticmethod
     def get_main_stats(text):
@@ -85,6 +101,8 @@ class GetStateData:
                 td = i.findChildren("td")
 
                 # And populate.
+
+                # We're gonna clean these strings first so we can use them again without ugly repetition.
                 total_cases = bf.cleanse_state_string(td[1].contents)
                 total_deaths = bf.cleanse_state_string(td[3].contents)
                 total_recovered = bf.cleanse_state_string(td[5].contents)
@@ -131,6 +149,30 @@ class BotFunctions:
         return str(str_to_cleanse).replace("['", "").replace("']", "").replace(",", "").strip()
 
     @staticmethod
+    def get_query_string(query_string):
+        # This builds our string. e.g.: "!country Bosnia and Herzegovina "
+        # becomes "Bosnia and Herzegovina"
+        result = ""
+        st = query_string.split(" ")
+        for i in st:
+            if not i.lower() == st[0].lower():
+                result += str(i + " ")
+        return result
+
+    @staticmethod
+    # This will print out the statistic dictionary.
+    def get_result_string(result_dict, header):
+        state_string = f"**{header}**```"
+        for k, v in result_dict.items():
+            state_string += k + ": " + v + "\n"
+        state_string += "```"
+        return state_string
+
+    @staticmethod
+    async def msg(message_obj, message):
+        await message_obj.channel.send(message)
+
+    @staticmethod
     def cleanse_state_string(str_to_cleanse):
         # We're cleansing 2 spaces due to the way the site is formatted.
         return str(str_to_cleanse).replace("  ", "").replace("\\n", "").\
@@ -172,27 +214,17 @@ class BotFunctions:
             await message.channel.send(f"**[TERRORIST ALERT]** {self.format_username(message.author)} is a terrorist "
                                        f"scum who refuses to capitalize Texas! Scumbag!")
 
-        # This gets state statistics from The Washington Post.
         # Texas is a country, or you're a terrorist. Pick one. And capitalize Texas.
         # All in good fun... don't take it seriously.
         elif message.content.startswith("!state") or message.content.startswith("!country Texas"):
-
-            # We want to get "New York" from the string "!state New York " This is how we do it.
-            state_query = ""
-            st = message.content.split(" ")
-            for i in st:
-                if not i.lower() == st[0].lower():
-                    state_query += str(i + " ")
-
+            state_query = bf.get_query_string(message.content)
             # This gets the data from the state list.
             state_dict = self.states.get_state_data(state_query, "usa_table_countries_today")
             # Is the list above non-empty?
             if state_dict:
                 # Now we want to build the state string from the list above, and return it in human-readable format.
-                state_string = f"**Coronavirus Stats for {state_query.strip()}**```"
-                for k, v in state_dict.items():
-                    state_string += k + ": " + v + "\n"
-                await message.channel.send(state_string + "```")
+                state_string = bf.get_result_string(state_dict, f"Coronavirus Stats for {state_query.strip()}")
+                await message.channel.send(state_string)
             # Annnnnnd it's empty.
             else:
                 await message.channel.send("There was an error acquiring the state list")
@@ -200,13 +232,13 @@ class BotFunctions:
         # When you want the global statistics.
         elif message.content == '!stats' or message.content == "!plague":
             try:
-                stat_list = self.cmd.get_new_stats()
-
-                stat_string = f"**Global Statistics**```"
-                for k, v in stat_list.items():
-                    stat_string += k + ": " + v + "\n"
-                stat_string += "```\n Do you want more stats by Country? Use `!country <name>`"
-                await message.channel.send(stat_string)
+                stat_dict = self.cmd.get_new_stats()
+                if stat_dict:
+                    stat_string = bf.get_result_string(stat_dict, f"Global Statistics")
+                    stat_string += "Do you want more stats by Country? Use `!country <name>`"
+                    await message.channel.send(stat_string)
+                else:
+                    await message.channel.send(f"Unable to update global statistics.")
             except requests.exceptions.SSLError:
                 await message.channel.send(
                     "Attempted Man in the Middle attack detected: Incorrect HTTPS response received. "
@@ -221,31 +253,18 @@ class BotFunctions:
             try:
                 # This builds our country string. e.g.: "!country Bosnia and Herzegovina "
                 # becomes "Bosnia and Herzegovina"
-                country_string = ""
-                st = message.content.split(" ")
-                for i in st:
-                    if not i.lower() == st[0].lower():
-                        country_string += str(i + " ")
+                country_string = bf.get_query_string(message.content)
 
                 # We're going to a new request each time because, well... it's more stable than the Washington Post
                 # since we won't need to run geckodriver to get the contents.
                 response = requests.get("https://www.worldometers.info/coronavirus/")
-                country_list = self.cmd.traverse_html(response.text, country_string.strip())
+                country_dict = self.cmd.get_country_stats(response.text, country_string.strip())
 
                 # We got something, right?
-                if len(country_list) > 0:
-                    stat_string = f"**Coronavirus Statistics for {country_string.strip()}**\n```"
-                    stat_string += f"Country: {country_list[0]}\n"
-                    stat_string += f"Total Cases: {country_list[1]}\n"
-                    stat_string += f"New Cases: {country_list[2]}\n"
-                    stat_string += f"Death Rate: {self.get_rate(country_list[3], country_list[1])}\n"
-                    stat_string += f"Recovery Rate: {self.get_rate(country_list[5], country_list[1])}\n"
-                    stat_string += f"Total Deaths: {country_list[3]}\n"
-                    stat_string += f"New Deaths: {country_list[4]}\n"
-                    stat_string += f"Total Recovered: {country_list[5]}\n"
-                    stat_string += f"Active Cases: {country_list[6]}\n"
-                    stat_string += f"Serious/Critical: {country_list[7]}\n"
-                    stat_string += f"```\n"
+                if len(country_dict) > 0:
+                    stat_string = bf.get_result_string(country_dict,
+                                                       f"Coronavirus Statistics for {country_string.strip()}")
+
                     await message.channel.send(self.cleanse_string(stat_string))
                 # Nope, we didn't.
                 else:
