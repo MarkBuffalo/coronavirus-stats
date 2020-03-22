@@ -122,7 +122,8 @@ Available commands for this bot
 !stats
 !plague
 !country <country_name>
-!help```
+!help
+```
 
 ### To get all global statistics
 
