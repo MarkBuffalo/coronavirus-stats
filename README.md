@@ -12,10 +12,17 @@ A lot of well-meaning people are pushing bogus information without realizing it.
 
 ## What you can do to help
 
-It's simple. Please consider Social Distancing. It saves lives. Here's why:
+Two very simple things. Please consider Social Distancing. It saves lives. Here's why:
 
 ![Image of Yaktocat](https://i.imgur.com/EzHvdeo.jpg)
 
+You can also do your part to stop the spread of misinformation. Finally, try the FIVE.
+
+1 HANDS - Wash them often
+2 ELBOW - Cough into it
+3 FACE - Don't touch it
+4 SPACE - Keep safe distance
+5 HOMES - Stay if you can
 
 # Table of Contents
 
