@@ -2,13 +2,20 @@
 
 This is a bot for discord that's designed to help you get updated information on current coronavirus statistics. If you don't read this README, you're going to have a bad time. 
 
-# What you can do to help
+# What can I do to help stop this pandemic?
 
-Two very simple things. Please consider Social Distancing. It saves lives. Here's why:
+## Social Distancing. 
+
+Please consider Social Distancing. It really works and really helps save lives. Here's why:
 
 ![Image of Yaktocat](https://i.imgur.com/EzHvdeo.jpg)
 
-You can also do your part to stop the spread of misinformation. Finally, try the FIVE.
+Just because you are healthy doesn't mean you can't pass the disease to others and kill them.
+
+
+## Try the FIVE.
+
+Finally, try the FIVE.
 
 1. **HANDS** - Wash them often
 2. **ELBOW** - Cough into it
@@ -18,7 +25,9 @@ You can also do your part to stop the spread of misinformation. Finally, try the
 
 # Why did you make this?
 
-There's a lot of misinformation surrounding the coronavirus pandemic. You've probably heard a million and a half people downplaying the severity for months. This bot attempts to show you basic stats that the average person can understand.
+You do your part to help stop the spread of misinformation. 
+
+There's a lot of bad information surrounding the coronavirus pandemic. You've probably heard a million and a half people downplaying the severity for months. This bot attempts to show you basic stats that the average person can understand.
 
 Please get your information from the [Center for Disease Control](https://www.cdc.gov/coronavirus/2019-ncov/index.html), the [World Health Organization](https://www.who.int/emergencies/diseases/novel-coronavirus-2019) and reputable media outlets. Many people do not have your best interests in mind; some are ignorant, some are malicious. 
 
