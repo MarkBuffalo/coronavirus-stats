@@ -4,7 +4,7 @@ This is a bot for discord that's designed to help you get updated information on
 
 # Why?
 
-There's a lot of misinformation surrounding the coronavirus pandemic. You've probably heard a million and a half people downplaying the severity of this pandemic for months. This bot attempts to show you just how bad it is using basic stats that the average person can understand.
+There's a lot of misinformation surrounding the coronavirus pandemic. You've probably heard a million and a half people downplaying the severity of this pandemic for months. This bot attempts to show you basic stats that the average person can understand.
 
 Please get your information from the [Center for Disease Control](https://www.cdc.gov/coronavirus/2019-ncov/index.html) and the [World Health Organization](https://www.who.int/emergencies/diseases/novel-coronavirus-2019). Many people do not have your best interests and mind; some are ignorant, some are malicious. 
 
