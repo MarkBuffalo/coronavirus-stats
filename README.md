@@ -10,6 +10,11 @@ Please get your information from the [Center for Disease Control](https://www.cd
 
 A lot of well-meaning people are pushing bogus information without realizing it. Most major media companies, [including CBS](https://www.cbsnews.com/live-updates/coronavirus-disease-covid-19-latest-news-2020-03-21/), vet their information before airing it.
 
+Also, please consider Social Distancing. It saves lives. Here's why:
+
+![Image of Yaktocat](https://i.imgur.com/EzHvdeo.jpg)
+
+
 # Table of Contents
 
    * [Requirements](#requirements)
