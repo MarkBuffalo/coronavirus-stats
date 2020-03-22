@@ -12,7 +12,7 @@ class CountryData:
 
     def get_new_stats(self):
         self.response = requests.get("https://www.worldometers.info/coronavirus/")
-        return self.get_main_stats(self.response.text) if self.response.status_code == 200 else ""
+        return self.get_main_stats(self.response.text) if self.response.status_code == 200 else None
 
     @staticmethod
     def get_country_stats(markup, country):
@@ -31,7 +31,7 @@ class CountryData:
                 start = 1 if ("<a" in first or "<span" in first) else 0
                 end = 9 if ("<a" in first or "<span" in first) else 8
                 for j in range(start, end):
-                    r = str(rows[counter].findChildren()[j].contents).replace(" ", "").replace("\\n", " ")
+                    r = bf.cleanse_string(rows[counter].findChildren()[j].contents)
                     new_list.append(r)
             counter += 1
 
@@ -52,7 +52,7 @@ class CountryData:
 
     @staticmethod
     def get_main_stats(text):
-        # This code is old, and does not use BeautifulSoup. Will get around to fixing that some day.
+        # This function's code is old, and does not use BeautifulSoup. Will get around to fixing that some day.
         corona_cases = text.split('<h1>Coronavirus Cases:</h1>')[1].\
             split('<span style="color:#aaa">')[1].split('</span>')[0]
 
@@ -259,10 +259,6 @@ class BotFunctions:
             state_string += f"{k}: {v}\n"
         state_string += "```"
         return state_string
-
-    @staticmethod
-    async def msg(message_obj, message):
-        await message_obj.channel.send(message)
 
     @staticmethod
     def cleanse_state_string(str_to_cleanse):
