@@ -27,7 +27,7 @@ Finally, try the FIVE.
 
 # Why did you make this?
 
-You do your part to help stop the spread of misinformation. 
+I'm trying to do my part to help stop the spread of misinformation. You can help too!
 
 There's a lot of bad information surrounding the coronavirus pandemic. You've probably heard a million and a half people downplaying the severity for months. This bot attempts to show you basic stats that the average person can understand.
 
