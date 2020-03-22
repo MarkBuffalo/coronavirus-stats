@@ -8,7 +8,7 @@ There's a lot of misinformation surrounding the coronavirus pandemic. You've pro
 
 Please get your information from the [Center for Disease Control](https://www.cdc.gov/coronavirus/2019-ncov/index.html), the [World Health Organization](https://www.who.int/emergencies/diseases/novel-coronavirus-2019) and reputable media outlets. Many people do not have your best interests in mind; some are ignorant, some are malicious. 
 
-A lot of well-meaning people are pushing bogus information without realizing it. Most major media companies, [including CBS](https://www.cbsnews.com/live-updates/coronavirus-disease-covid-19-latest-news-2020-03-21/), vet their information before airing it.
+A lot of well-meaning people are pushing bogus information without realizing it. Most major media companies, [including CBS](https://www.cbsnews.com/live-updates/coronavirus-disease-covid-19-latest-news-2020-03-21/), vet their information before airing it, so stick with these reputable media outlets.
 
 ## What you can do to help
 
