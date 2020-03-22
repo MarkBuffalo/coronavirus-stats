@@ -2,15 +2,7 @@
 
 This is a bot for discord that's designed to help you get updated information on current coronavirus statistics. If you don't read this README, you're going to have a bad time. 
 
-# Why?
-
-There's a lot of misinformation surrounding the coronavirus pandemic. You've probably heard a million and a half people downplaying the severity for months. This bot attempts to show you basic stats that the average person can understand.
-
-Please get your information from the [Center for Disease Control](https://www.cdc.gov/coronavirus/2019-ncov/index.html), the [World Health Organization](https://www.who.int/emergencies/diseases/novel-coronavirus-2019) and reputable media outlets. Many people do not have your best interests in mind; some are ignorant, some are malicious. 
-
-A lot of well-meaning people are pushing bogus information without realizing it. Most major media companies, [including CBS](https://www.cbsnews.com/live-updates/coronavirus-disease-covid-19-latest-news-2020-03-21/), vet their information before airing it, so stick with these reputable media outlets.
-
-## What you can do to help
+# What you can do to help
 
 Two very simple things. Please consider Social Distancing. It saves lives. Here's why:
 
@@ -23,6 +15,14 @@ You can also do your part to stop the spread of misinformation. Finally, try the
 3. **FACE** - Don't touch it
 4. **SPACE** - Keep safe distance
 5. **HOMES** - Stay if you can
+
+# Why did you make this?
+
+There's a lot of misinformation surrounding the coronavirus pandemic. You've probably heard a million and a half people downplaying the severity for months. This bot attempts to show you basic stats that the average person can understand.
+
+Please get your information from the [Center for Disease Control](https://www.cdc.gov/coronavirus/2019-ncov/index.html), the [World Health Organization](https://www.who.int/emergencies/diseases/novel-coronavirus-2019) and reputable media outlets. Many people do not have your best interests in mind; some are ignorant, some are malicious. 
+
+A lot of well-meaning people are pushing bogus information without realizing it. Most major media companies, [including CBS](https://www.cbsnews.com/live-updates/coronavirus-disease-covid-19-latest-news-2020-03-21/), vet their information before airing it, so stick with these reputable media outlets.
 
 # Table of Contents
 
