@@ -1,6 +1,8 @@
 # 🤖 Discord Bot: Coronavirus Stats 🦠 📈 
 
-This is a bot for discord that's designed to help you get updated information on current coronavirus statistics. If you don't read this README, you're going to have a bad time. 
+This is a bot for discord that's designed to help you get updated information on current coronavirus statistics. This bot provides information for **countries**, **states** and **the world**. 
+
+Before you scroll down to the instructions, etc., consider reading about what you can do to help slow this pandemic. I've added some common sense here.
 
 # What can I do to help stop this pandemic?
 
