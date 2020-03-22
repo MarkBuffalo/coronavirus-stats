@@ -18,11 +18,11 @@ Two very simple things. Please consider Social Distancing. It saves lives. Here'
 
 You can also do your part to stop the spread of misinformation. Finally, try the FIVE.
 
-1. HANDS - Wash them often
-2. ELBOW - Cough into it
-3. FACE - Don't touch it
-4. SPACE - Keep safe distance
-5. HOMES - Stay if you can
+1. **HANDS** - Wash them often
+2. **ELBOW** - Cough into it
+3. **FACE** - Don't touch it
+4. **SPACE** - Keep safe distance
+5. **HOMES** - Stay if you can
 
 # Table of Contents
 
