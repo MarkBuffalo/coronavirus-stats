@@ -6,7 +6,7 @@ Before you scroll down to the instructions, etc., consider reading about what yo
 
 # What can I do to help stop this pandemic?
 
-## Social Distancing. 
+## You can practice Social Distancing 
 
 Please consider Social Distancing. It really works and really helps save lives. Here's why:
 
@@ -15,9 +15,7 @@ Please consider Social Distancing. It really works and really helps save lives. 
 Just because you are healthy doesn't mean you can't pass the disease to others and kill them.
 
 
-## Try the FIVE.
-
-Finally, try the FIVE.
+## You can remember The FIVE.
 
 1. **HANDS** - Wash them often
 2. **ELBOW** - Cough into it
