@@ -112,6 +112,18 @@ or if using Docker:
 
 ## To use in the server...
 
+You can start with `!help`:
+
+```
+Available commands for this bot
+!country texas
+!country Texas
+!state <state_name>
+!stats
+!plague
+!country <country_name>
+!help```
+
 ### To get all global statistics
 
 ```!stats``` or ```!plague```
