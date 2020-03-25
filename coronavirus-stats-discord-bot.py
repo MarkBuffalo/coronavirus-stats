@@ -116,7 +116,7 @@ class StateData:
                     "Total Deaths": bf.cleanse_state_string(td[3].contents),
                     "New Deaths": bf.cleanse_state_string(td[4].contents),
                     "Total Recovered": total_recovered,
-                    "Active Cases": bf.cleanse_state_string(td[6].contents),
+                    "Active Cases": bf.cleanse_state_string(td[5].contents),
                     "Death Rate": bf.get_rate(total_deaths, total_cases),
                     "Recovery Rate": bf.get_rate(total_recovered, total_cases)
                 }
