@@ -107,18 +107,15 @@ class StateData:
                 # We're gonna clean these strings first so we can use them again without ugly repetition.
                 total_cases = bf.cleanse_state_string(td[1].contents)
                 total_deaths = bf.cleanse_state_string(td[3].contents)
-                total_recovered = bf.cleanse_state_string(td[5].contents)
 
                 return {
                     "State": bf.cleanse_state_string(td[0].contents),
-                    "Total Cases": bf.cleanse_state_string(td[1].contents),
+                    "Total Cases": total_cases,
                     "New Cases": bf.cleanse_state_string(td[2].contents),
-                    "Total Deaths": bf.cleanse_state_string(td[3].contents),
+                    "Total Deaths": total_deaths,
                     "New Deaths": bf.cleanse_state_string(td[4].contents),
-                    "Total Recovered": total_recovered,
                     "Active Cases": bf.cleanse_state_string(td[5].contents),
                     "Death Rate": bf.get_rate(total_deaths, total_cases),
-                    "Recovery Rate": bf.get_rate(total_recovered, total_cases)
                 }
         return None
 
