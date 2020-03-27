@@ -109,9 +109,16 @@ class StateData:
                 total_deaths = bf.cleanse_state_string(td[3].contents)
                 active_cases = bf.cleanse_state_string(td[5].contents)
                 # They took off the recovery total. We can postulate this information anyway based on current data.
-                total_recovered = (int(bf.cleanse_string(total_cases))
-                                   - int(bf.cleanse_string(total_deaths))
-                                   - int(bf.cleanse_string(active_cases)))
+                total_recovered = 0
+
+                # Let's see if we even get a value in the first place.
+                try:
+                    total_recovered = (int(bf.cleanse_state_string(total_cases))
+                                       - int(bf.cleanse_state_string(total_deaths))
+                                       - int(bf.cleanse_state_string(active_cases)))
+                # Nope. And we don't have to do anything because it's already 0.
+                except ValueError:
+                    pass
 
                 return {
                     "State": bf.cleanse_state_string(td[0].contents),
@@ -242,7 +249,10 @@ class BotFunctions:
     # This is dumb, and likely unnecessary at this time. Doing it anyway because of reasons.
     @staticmethod
     def cleanse_string(str_to_cleanse):
-        return str(str_to_cleanse).replace("['", "").replace("']", "").replace(",", "").strip()
+        try:
+            return str(str_to_cleanse).replace("['", "").replace("']", "").replace(",", "").strip()
+        except ValueError:
+            return 0
 
     @staticmethod
     def get_query_string(query_string):
@@ -266,10 +276,13 @@ class BotFunctions:
 
     @staticmethod
     def cleanse_state_string(str_to_cleanse):
-        # We're cleansing 2 spaces due to the way the site is formatted.
-        return str(str_to_cleanse).replace("  ", "").replace("\\n", "").\
-            replace("['", "").replace("']", "").\
-            replace("<strong>", "").replace("</strong>", "").strip()
+        try:
+            # We're cleansing 2 spaces due to the way the site is formatted.
+            return str(str_to_cleanse).replace("  ", "").replace("\\n", "").\
+                replace("['", "").replace("']", "").\
+                replace("<strong>", "").replace("</strong>", "").strip()
+        except ValueError:
+            return 0
 
     # Gets the rate of deaths/recoveries/salads per face/whatever.
     def get_rate(self, bad, total):
