@@ -125,7 +125,7 @@ class StateData:
                                        - int(bf.cleanse_state_string(active_cases)))
                 # Nope. And we don't have to do anything because it's already 0.
                 except ValueError:
-                    pass
+                    total_recovered = "Incomplete data"
 
                 return {
                     "State": bf.cleanse_state_string(td[0].contents),
@@ -183,48 +183,31 @@ class BotCommandResults:
             await message.channel.send("There was an error acquiring the state list")
 
     async def print_countries(self, message):
-        try:
-            stat_dict = self.cd.get_new_stats()
-            if stat_dict:
-                stat_string = bf.get_result_string(stat_dict, f"Global Statistics")
-                stat_string += "Do you want more stats by Country? Use `!country <name>`"
-                await message.channel.send(stat_string)
-            else:
-                await message.channel.send(f"Unable to update global statistics.")
-        except requests.exceptions.SSLError:
-            await message.channel.send("Potential Man in the Middle attack attempted: Bad HTTPS Response.")
-        except urllib3.exceptions.MaxRetryError:
-            await message.channel.send("There was an error attempting to connect to the the stats server. ")
-        except TimeoutError:
-            await message.channel.send("There was an error attempting to connect to the the stats server. ")
+        stat_dict = self.cd.get_new_stats()
+        if stat_dict:
+            stat_string = bf.get_result_string(stat_dict, f"Global Statistics")
+            stat_string += "Do you want more stats by Country? Use `!country <name>`"
+            await message.channel.send(stat_string)
+        else:
+            await message.channel.send(f"Unable to update global statistics.")
 
     async def print_country(self, message):
-        try:
-            # This builds our country string. e.g.: "!country Bosnia and Herzegovina "
-            # becomes "Bosnia and Herzegovina"
-            country_string = bf.get_query_string(message.content)
+        # This builds our country string. e.g.: "!country Bosnia and Herzegovina "
+        # becomes "Bosnia and Herzegovina"
+        country_string = bf.get_query_string(message.content)
 
-            # Get info from the page on worldometers.
-            response = requests.get("https://www.worldometers.info/coronavirus/")
-            country_dict = self.cd.get_country_stats(response.text, country_string.strip())
+        # Get info from the page on worldometers.
+        response = requests.get("https://www.worldometers.info/coronavirus/")
+        country_dict = self.cd.get_country_stats(response.text, country_string.strip())
 
-            # We got something, right?
-            if country_dict:
-                stat_string = bf.get_result_string(country_dict,
-                                                   f"Coronavirus Statistics for {country_string.strip()}")
-
-                await message.channel.send(bf.cleanse_string(stat_string))
+        # We got something, right?
+        if country_dict:
+            stat_string = bf.get_result_string(country_dict, f"Coronavirus Statistics for {country_string.strip()}")
+            await message.channel.send(bf.cleanse_string(stat_string))
             # Nope, we didn't.
-            else:
-                await message.channel.send(
-                    f"Sorry, {bf.format_username(message.author)}! I can't find the "
-                    f"country \"{country_string.strip()}\". ")
-        except requests.exceptions.SSLError:
-            await message.channel.send("Potential Man in the Middle attack attempted: Bad HTTPS Response.")
-        except urllib3.exceptions.MaxRetryError:
-            await message.channel.send("There was an error attempting to connect to the the stats server. ")
-        except TimeoutError:
-            await message.channel.send("There was an error attempting to connect to the the stats server. ")
+        else:
+            await message.channel.send(f"Sorry, {bf.format_username(message.author)}! "
+                                       f"I can't find the "f"country \"{country_string.strip()}\". ")
 
     @staticmethod
     async def expose_terrorist(message):
@@ -238,7 +221,6 @@ class BotFunctions:
         load_dotenv()
         # And pass them here
         self.token = os.getenv('DISCORD_TOKEN')
-
         self.client = discord.Client()
 
         # Instantiate our own classes so we can do the thing.
@@ -328,6 +310,12 @@ class BotFunctions:
                         await value(message)
                     except IndexError:
                         await message.channel.send("Your query returned nothing.")
+                    except requests.exceptions.SSLError:
+                        await message.channel.send("Potential Man in the Middle attack attempted: Bad HTTPS Response.")
+                    except urllib3.exceptions.MaxRetryError:
+                        await message.channel.send("There was an error attempting to connect to the the stats server. ")
+                    except TimeoutError:
+                        await message.channel.send("There was an error attempting to connect to the the stats server. ")
                     # We don't need to continue the loop, we found the key and executed the value.
                     break
 
