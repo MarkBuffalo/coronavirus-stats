@@ -15,7 +15,18 @@ class CountryData:
         return self.get_main_stats(self.response.text) if self.response.status_code == 200 else None
 
     @staticmethod
-    def get_country_stats(markup, country):
+    def get_country_info(first, rows, counter):
+        new_list = []
+        # This is due to the formatting.
+        # The index will be 0-8 if it doesn't include "<a" or "<span", otherwise 1-9.
+        start = 1 if ("<a" in first or "<span" in first) else 0
+        end = 9 if ("<a" in first or "<span" in first) else 8
+        for j in range(start, end):
+            r = bf.cleanse_string(rows[counter].findChildren()[j].contents)
+            new_list.append(r)
+        return new_list if len(new_list) > 0 else None
+
+    def get_country_stats(self, markup, country):
         soup = BeautifulSoup(markup, "html.parser")
         # Only get things from the table so we can ignore the rest of the html.
         tables = soup.findChildren("table")
@@ -24,15 +35,11 @@ class CountryData:
         new_list = []
         counter = 0
         for row in rows:
-            if country.lower() in str(row).lower():
-                first = str(rows[counter].findChildren()[0])
-                # This is due to the formatting.
-                # The index will be 0-8 if it doesn't include "<a" or "<span", otherwise 1-9.
-                start = 1 if ("<a" in first or "<span" in first) else 0
-                end = 9 if ("<a" in first or "<span" in first) else 8
-                for j in range(start, end):
-                    r = bf.cleanse_string(rows[counter].findChildren()[j].contents)
-                    new_list.append(r)
+            # Special parsing for Hong Kong because for some reason  it says "China."
+            if country.lower() in str(row).lower() and "hong" in country.lower():
+                new_list = self.get_country_info(str(rows[counter].findChildren()[0]), rows, counter)
+            elif country.lower() in str(row).lower():
+                new_list = self.get_country_info(str(rows[counter].findChildren()[0]), rows, counter)
             counter += 1
 
         # Then we're going to return this list as a reconstructed dictionary
@@ -149,7 +156,7 @@ class BotCommandResults:
             "!stats": self.print_countries,
             "!plague": self.print_countries,
             "!country": self.print_country,
-            "!help": self.print_help
+            "!help": self.print_help,
         }
 
     async def print_help(self, message):
@@ -317,7 +324,10 @@ class BotFunctions:
         elif message.content.startswith("!"):
             for key, value in self.cmd.get_master_command_dict().items():
                 if message.content.startswith(key):
-                    await value(message)
+                    try:
+                        await value(message)
+                    except IndexError:
+                        await message.channel.send("Your query returned nothing.")
                     # We don't need to continue the loop, we found the key and executed the value.
                     break
 
