@@ -29,7 +29,7 @@ I'm trying to do my part to help stop the spread of misinformation. You can help
 
 There's a lot of bad information surrounding the coronavirus pandemic. You've probably heard a million and a half people downplaying the severity for months. This bot attempts to show you basic stats that the average person can understand.
 
-Please get your information from the [Center for Disease Control and Prevention](https://www.cdc.gov/coronavirus/2019-ncov/index.html) and reputable media outlets such as [CBS](https://www.cbsnews.com). Many people do not have your best interests in mind; some are ignorant, some are malicious. 
+Please get your information from the [Center for Disease Control and Prevention](https://www.cdc.gov/coronavirus/2019-ncov/index.html) and reputable media outlets such as [CBS](https://www.cbsnews.com). 
 
 A lot of well-meaning individuals are pushing bogus information without realizing it. However, most major media companies, vet their information before airing it, so stick with reputable media outlets.
 
