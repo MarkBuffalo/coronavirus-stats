@@ -30,10 +30,16 @@ class CountryData:
             new_list.append(r)
         return new_list if len(new_list) > 0 else None
 
+    # Since accounting for all these countries with similar naming conventions
+    # ("Caribbean Netherlands" vs. "Netherlands," "Hong Kong, China, SAR" vs. "China," etc. keep getting in the way,
+    # we now have a way to handle this at scale by merely entering new names in the
+    # self.special_country_list object.
     def get_country_list(self, rows, row, counter, country):
+        # Is this a special country?
         for special_country in self.special_country_list:
             if country.lower() in str(row).lower() and special_country.lower() in country.lower():
                 return self.get_country_info(str(rows[counter].findChildren()[0]), rows, counter)
+        # Nope, it's a normal country.
         if country.lower() in str(row).lower():
             return self.get_country_info(str(rows[counter].findChildren()[0]), rows, counter)
 
@@ -46,9 +52,9 @@ class CountryData:
         new_list = []
         counter = 0
         for row in rows:
-            # Special parsing for Hong Kong because for some reason  it says "China."
-            # Also, netherlands vs. Caribbean Netherlands.
+            # Attempt to get stats for a particular country in the form of a list object.
             new_list = self.get_country_list(rows, row, counter, country)
+            # If we got what we want from the list, just break out of this loop.
             if new_list:
                 break
             counter += 1
