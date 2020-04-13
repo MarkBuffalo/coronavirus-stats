@@ -249,166 +249,215 @@ If you're having trouble finding states, regions, territories or countries to us
 
 ## Valid Countries
 
-- Afghanistan
-- Albania
-- Algeria
-- Andorra
-- Antigua and Barbuda
-- Argentina
-- Armenia
-- Aruba
-- Australia
-- Austria
-- Azerbaijan
-- Bahamas
-- Bahrain
-- Bangladesh
-- Belarus
-- Belgium
-- Benin
-- Bhutan
-- Bolivia
-- Bosnia and Herzegovina
-- Brazil
-- Brunei
-- Bulgaria
-- Burkina Faso
-- Cambodia
-- Cameroon
-- Canada
-- CAR
-- Cayman Islands
-- Channel Islands
-- Chile
-- China
-- Colombia
-- Congo
-- Costa Rica
-- Croatia
-- Cuba
-- Curaçao
-- Cyprus
-- Czechia
-- Denmark
-- Diamond Princess
-- Dominican Republic
-- DRC
-- Ecuador
-- Egypt
-- Equatorial Guinea
-- Estonia
-- Eswatini
-- Ethiopia
-- Faeroe Islands
-- Finland
-- France
-- French Guiana
-- French Polynesia
-- Gabon
-- Georgia
-- Germany
-- Ghana
-- Gibraltar
-- Greece
-- Greenland
-- Guadeloupe
-- Guam
-- Guatemala
-- Guinea
-- Guyana
-- Honduras
-- Hong Kong
-- Hungary
-- Iceland
-- India
-- Indonesia
-- Iran
-- Iraq
-- Ireland
-- Israel
-- Italy
-- Ivory Coast
-- Jamaica
-- Japan
-- Jordan
-- Kazakhstan
-- Kenya
-- Kuwait
-- Latvia
-- Lebanon
-- Liberia
-- Liechtenstein
-- Lithuania
-- Luxembourg
-- Macao
-- Malaysia
-- Maldives
-- Malta
-- Martinique
-- Mauritania
-- Mayotte
-- Mexico
-- Moldova
-- Monaco
-- Mongolia
-- Morocco
-- Namibia
-- Nepal
-- Netherlands
-- New Zealand
-- Nigeria
-- North Macedonia
-- Norway
-- Oman
-- Pakistan
-- Palestine
-- Panama
-- Paraguay
-- Peru
-- Philippines
-- Poland
-- Portugal
-- Puerto Rico
-- Qatar
-- Réunion
-- Romania
-- Russia
-- Rwanda
-- S. Korea
-- Saint Lucia
-- Saint Martin
-- San Marino
-- Saudi Arabia
-- Senegal
-- Serbia
-- Seychelles
-- Singapore
-- Slovakia
-- Slovenia
-- Somalia
-- South Africa
-- Spain
-- Sri Lanka
-- St. Barth
-- St. Vincent Grenadines
-- Sudan
-- Suriname
-- Sweden
-- Switzerland
-- Taiwan
-- Tanzania
-- Thailand
-- Togo
-- Trinidad and Tobago
-- Tunisia
-- Turkey
-- U.S. Virgin Islands
-- UAE
-- UK
-- Ukraine
-- Uruguay
-- USA
-- Uzbekistan
-- Vatican City
-- Venezuela
-- Vietnam
+- Afghanistan 
+- Albania 
+- Algeria 
+- Andorra 
+- Angola 
+- Anguilla 
+- Antigua and Barbuda 
+- Argentina 
+- Armenia 
+- Aruba 
+- Australia 
+- Austria 
+- Azerbaijan 
+- Bahamas 
+- Bahrain 
+- Bangladesh 
+- Barbados 
+- Belarus 
+- Belgium 
+- Belize 
+- Benin 
+- Bermuda 
+- Bhutan 
+- Bolivia 
+- Bosnia and Herzegovina 
+- Botswana 
+- Brazil 
+- British Virgin Islands 
+- Brunei 
+- Bulgaria 
+- Burkina Faso 
+- Burundi 
+- CAR 
+- Cabo Verde 
+- Cambodia 
+- Cameroon 
+- Canada 
+- Caribbean Netherlands 
+- Cayman Islands 
+- Chad 
+- Channel Islands 
+- Chile 
+- China 
+- Colombia 
+- Congo 
+- Costa Rica 
+- Croatia 
+- Cuba 
+- Curaçao 
+- Cyprus 
+- Czechia 
+- DRC 
+- Denmark 
+- Diamond Princess 
+- Djibouti 
+- Dominica 
+- Dominican Republic 
+- Ecuador 
+- Egypt 
+- El Salvador 
+- Equatorial Guinea 
+- Eritrea 
+- Estonia 
+- Eswatini 
+- Ethiopia 
+- Faeroe Islands 
+- Falkland Islands 
+- Fiji 
+- Finland 
+- France 
+- French Guiana 
+- French Polynesia 
+- Gabon 
+- Gambia 
+- Georgia 
+- Germany 
+- Ghana 
+- Gibraltar 
+- Greece 
+- Greenland 
+- Grenada 
+- Guadeloupe 
+- Guatemala 
+- Guinea 
+- Guinea-Bissau 
+- Guyana 
+- Haiti 
+- Honduras 
+- Hong Kong 
+- Hungary 
+- Iceland 
+- India 
+- Indonesia 
+- Iran 
+- Iraq 
+- Ireland 
+- Isle of Man 
+- Israel 
+- Italy 
+- Ivory Coast 
+- Jamaica 
+- Japan 
+- Jordan 
+- Kazakhstan 
+- Kenya 
+- Kuwait 
+- Kyrgyzstan 
+- Laos 
+- Latvia 
+- Lebanon 
+- Liberia 
+- Libya 
+- Liechtenstein 
+- Lithuania 
+- Luxembourg 
+- MS Zaandam 
+- Macao 
+- Madagascar 
+- Malawi 
+- Malaysia 
+- Maldives 
+- Mali 
+- Malta 
+- Martinique 
+- Mauritania 
+- Mauritius 
+- Mayotte 
+- Mexico 
+- Moldova 
+- Monaco 
+- Mongolia 
+- Montenegro 
+- Montserrat 
+- Morocco 
+- Mozambique 
+- Myanmar 
+- Namibia 
+- Nepal 
+- Netherlands 
+- New Caledonia 
+- New Zealand 
+- Nicaragua 
+- Niger 
+- Nigeria 
+- North Macedonia 
+- Norway 
+- Oman 
+- Pakistan 
+- Palestine 
+- Panama 
+- Papua New Guinea 
+- Paraguay 
+- Peru 
+- Philippines 
+- Poland 
+- Portugal 
+- Qatar 
+- Romania 
+- Russia 
+- Rwanda 
+- Réunion 
+- S. Korea 
+- Saint Kitts and Nevis 
+- Saint Lucia 
+- Saint Martin 
+- Saint Pierre Miquelon 
+- San Marino 
+- Sao Tome and Principe 
+- Saudi Arabia 
+- Senegal 
+- Serbia 
+- Seychelles 
+- Sierra Leone 
+- Singapore 
+- Sint Maarten 
+- Slovakia 
+- Slovenia 
+- Somalia 
+- South Africa 
+- South Sudan 
+- Spain 
+- Sri Lanka 
+- St. Barth 
+- St. Vincent Grenadines 
+- Sudan 
+- Suriname 
+- Sweden 
+- Switzerland 
+- Syria 
+- Taiwan 
+- Tanzania 
+- Thailand 
+- Timor-Leste 
+- Togo 
+- Trinidad and Tobago 
+- Tunisia 
+- Turkey 
+- Turks and Caicos 
+- UAE 
+- UK 
+- USA 
+- Uganda 
+- Ukraine 
+- Uruguay 
+- Uzbekistan 
+- Vatican City 
+- Venezuela 
+- Vietnam 
+- Western Sahara 
+- Yemen 
+- Zambia 
+- Zimbabwe 
