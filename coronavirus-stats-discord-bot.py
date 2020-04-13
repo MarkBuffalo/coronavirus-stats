@@ -36,7 +36,9 @@ class CountryData:
         counter = 0
         for row in rows:
             # Special parsing for Hong Kong because for some reason  it says "China."
-            if country.lower() in str(row).lower() and "hong" in country.lower():
+            if country.lower() in str(row).lower() and "caribbean netherlands" in country.lower():
+                new_list = self.get_country_info(str(rows[counter].findChildren()[0]), rows, counter)
+            elif country.lower() in str(row).lower() and "hong" in country.lower():
                 new_list = self.get_country_info(str(rows[counter].findChildren()[0]), rows, counter)
             elif country.lower() in str(row).lower():
                 new_list = self.get_country_info(str(rows[counter].findChildren()[0]), rows, counter)
