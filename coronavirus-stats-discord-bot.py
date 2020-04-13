@@ -8,6 +8,10 @@ from bs4 import BeautifulSoup
 
 class CountryData:
     def __init__(self):
+        self.special_country_list = [
+            "Caribbean Netherlands",
+            "Hong Kong"
+        ]
         self.response = ""
 
     def get_new_stats(self):
@@ -26,6 +30,13 @@ class CountryData:
             new_list.append(r)
         return new_list if len(new_list) > 0 else None
 
+    def get_country_list(self, rows, row, counter, country):
+        for special_country in self.special_country_list:
+            if country.lower() in str(row).lower() and special_country.lower() in country.lower():
+                return self.get_country_info(str(rows[counter].findChildren()[0]), rows, counter)
+        if country.lower() in str(row).lower():
+            return self.get_country_info(str(rows[counter].findChildren()[0]), rows, counter)
+
     def get_country_stats(self, markup, country):
         soup = BeautifulSoup(markup, "html.parser")
         # Only get things from the table so we can ignore the rest of the html.
@@ -36,12 +47,10 @@ class CountryData:
         counter = 0
         for row in rows:
             # Special parsing for Hong Kong because for some reason  it says "China."
-            if country.lower() in str(row).lower() and "caribbean netherlands" in country.lower():
-                new_list = self.get_country_info(str(rows[counter].findChildren()[0]), rows, counter)
-            elif country.lower() in str(row).lower() and "hong" in country.lower():
-                new_list = self.get_country_info(str(rows[counter].findChildren()[0]), rows, counter)
-            elif country.lower() in str(row).lower():
-                new_list = self.get_country_info(str(rows[counter].findChildren()[0]), rows, counter)
+            # Also, netherlands vs. Caribbean Netherlands.
+            new_list = self.get_country_list(rows, row, counter, country)
+            if new_list:
+                break
             counter += 1
 
         # Then we're going to return this list as a reconstructed dictionary
@@ -57,11 +66,12 @@ class CountryData:
             "Total Recovered": new_list[5],
             "Active Cases": new_list[6],
             "Serious/Critical": new_list[7],
-        }
+        } if new_list is not None else None  # Unless we have nothing...
 
     @staticmethod
     def get_main_stats(text):
-        # This function's code is old, and does not use BeautifulSoup. Will get around to fixing that some day.
+        # This function's code is old, and does not use BeautifulSoup.
+        # Will get around to fixing that some day.
         corona_cases = text.split('<h1>Coronavirus Cases:</h1>')[1].\
             split('<span style="color:#aaa">')[1].split('</span>')[0]
 
