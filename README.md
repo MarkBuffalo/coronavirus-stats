@@ -192,60 +192,68 @@ If you're having trouble finding states, regions, territories or countries to us
 
 ## Valid States
 
-- Alabama
-- Alaska
-- Arizona
-- Arkansas
-- California
-- Colorado
-- Connecticut
-- Delaware
-- District of Columbia
-- Florida
-- Georgia
-- Guam
-- Hawaii
-- Idaho
-- Illinois
-- Indiana
-- Iowa
-- Kansas
-- Kentucky
-- Louisiana
-- Maine
-- Maryland
-- Massachusetts
-- Michigan
-- Minnesota
-- Mississippi
-- Missouri
-- Montana
-- Nebraska
-- Nevada
-- New Hampshire
-- New Jersey
-- New Mexico
-- New York
-- North Carolina
-- North Dakota
-- Ohio
-- Oklahoma
-- Oregon
-- Pennsylvania
-- Puerto Rico
-- Rhode Island
-- South Carolina
-- South Dakota
-- Tennessee
-- Texas
-- Utah
-- Vermont
-- Virgin Islands
-- Virginia
-- Washington
-- Wisconsin
-- Wyoming
+Some of these are, quite obviously, not states. Suspension of belief is required to use them anyway.
 
+- Alabama 
+- Alaska 
+- Arizona 
+- Arkansas 
+- California 
+- Colorado 
+- Connecticut 
+- Delaware 
+- Diamond Princess Ship 
+- District Of Columbia 
+- Florida 
+- Georgia 
+- Grand Princess Ship 
+- Guam 
+- Hawaii 
+- Idaho 
+- Illinois 
+- Indiana 
+- Iowa 
+- Kansas 
+- Kentucky 
+- Louisiana 
+- Maine 
+- Maryland 
+- Massachusetts 
+- Michigan 
+- Minnesota 
+- Mississippi 
+- Missouri 
+- Montana 
+- Navajo Nation 
+- Nebraska 
+- Nevada 
+- New Hampshire 
+- New Jersey 
+- New Mexico 
+- New York 
+- North Carolina 
+- North Dakota 
+- Northern Mariana Islands 
+- Ohio 
+- Oklahoma 
+- Oregon 
+- Pennsylvania 
+- Puerto Rico 
+- Rhode Island 
+- South Carolina 
+- South Dakota 
+- Tennessee 
+- Texas 
+- US Military 
+- United States Virgin Islands 
+- Utah 
+- Vermont 
+- Virginia 
+- Washington 
+- West Virginia 
+- Wisconsin 
+- Wuhan Repatriated 
+- Wyoming 
 
 ## Valid Countries
 
