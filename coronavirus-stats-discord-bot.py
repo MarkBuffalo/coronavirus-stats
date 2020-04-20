@@ -258,7 +258,10 @@ class BotCommandResults:
             for results in results_list:
                 current_country = results[0]
                 current_value = results[found_cmd]
-                msg += f"{current_country}: {int(current_value):,}\n"
+                if "%" in current_value:
+                    msg += f"{current_country}: {current_value}\n"
+                else:
+                    msg += f"{current_country}: {int(current_value):,}\n"
             msg += "```"
             await message.channel.send(msg)
         else:
