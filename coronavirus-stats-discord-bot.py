@@ -4,15 +4,81 @@ import requests
 import urllib3
 from dotenv import load_dotenv
 from bs4 import BeautifulSoup
+from natsort import natsorted
 
 
 class CountryData:
     def __init__(self):
         self.special_country_list = [
             "Caribbean Netherlands",
-            "Hong Kong"
+            "Hong"
         ]
+
+        # Corresponds to ID "73201" (ctrl+f)
+        self.command_dict = {
+            "cases": 1,
+            "deaths": 3,
+            "deathrate": 4,
+            "recoveries": 6,
+            "recoveryrate": 7,
+            "critical": 9,
+            "tests": 10,
+            "tests1m": 11,
+        }
         self.response = ""
+
+    @staticmethod
+    def fix_string(text):
+        if "," in text:
+            return text.strip().replace(",", "")
+        elif "N/A" in text:
+            return 0
+        return text.strip()
+
+    def get_full_country_stats(self):
+        r = requests.get("https://www.worldometers.info/coronavirus/")
+        soup = BeautifulSoup(r.text, "html.parser")
+        stat_table = soup.findChildren("table", {"id": "main_table_countries_today"})
+        rows = stat_table[0].findChildren("tr")
+        counter = 0
+
+        country_list = []
+
+        # ID "73201"
+        # This starts at "9" because there are a lot more rows that don't need to be parsed. These are tabs.
+        # Then ends at the length of the rows list.
+        for i in range(9, len(rows)):
+            # Lots of really dumb text manipulation but it works... SHIP IT
+            country = rows[i].findChildren("td")
+            country_name = self.fix_string(country[0].text)
+            country_cases = self.fix_string(country[1].text)
+            country_new_cases = self.fix_string(country[2].text)
+            country_deaths = self.fix_string(country[3].text)
+            country_death_rate = bf.get_rate(country_deaths, country_cases)
+            country_new_deaths = self.fix_string(country[4].text)
+            country_recovered = self.fix_string(country[5].text)
+            country_recovery_rate = bf.get_rate(country_recovered, country_cases)
+            country_active_cases = self.fix_string(country[6].text)
+            country_serious_critical = self.fix_string(country[7].text)
+            country_tests = self.fix_string(country[10].text)
+            country_tests_per_1m = self.fix_string(country[11].text)
+
+            # Skip the total column, or seriously super-borked results occur.
+            if "Total:" not in rows[i].findChildren("td")[0].text:
+                country_list.append([country_name, country_cases, country_new_cases,
+                                     country_deaths, country_death_rate, country_new_deaths,
+                                     country_recovered, country_recovery_rate, country_active_cases,
+                                     country_serious_critical, country_tests, country_tests_per_1m])
+
+            counter += 1
+        return country_list
+
+    def get_top_stats(self, num):
+        sorted_list = natsorted(self.get_full_country_stats(), key=lambda x: x[num], reverse=True)
+        new_list = []
+        for i in range(0, 14):
+            new_list.append(sorted_list[i])
+        return new_list
 
     def get_new_stats(self):
         self.response = requests.get("https://www.worldometers.info/coronavirus/")
@@ -143,7 +209,7 @@ class StateData:
                                        - int(bf.cleanse_state_string(active_cases)))
                 # Nope. And we don't have to do anything because it's already 0.
                 except ValueError:
-                    total_recovered = "Incomplete data"
+                    total_recovered = "0"
 
                 return {
                     "State": bf.cleanse_state_string(td[0].contents),
@@ -175,15 +241,43 @@ class BotCommandResults:
             "!plague": self.print_countries,
             "!country": self.print_country,
             "!help": self.print_help,
+            "!top": self.print_top
         }
+
+    async def print_top(self, message):
+        command = message.content.split(" ")[1].strip()
+        found_cmd = 0
+        results_list = []
+        for key, value in self.cd.command_dict.items():
+            # await message.channel.send(f"You said: {message.content}")
+            if command == key:
+                results_list = self.cd.get_top_stats(value)
+                found_cmd = value
+        if len(results_list) > 0:
+            msg = f"**Top {command}**```"
+            for results in results_list:
+                current_country = results[0]
+                current_value = results[found_cmd]
+                msg += f"{current_country}: {int(current_value):,}\n"
+            msg += "```"
+            await message.channel.send(msg)
+        else:
+            await message.channel.send("Invalid stat")
 
     async def print_help(self, message):
         command_string = "**Available commands for this bot**```"
         for key, value in self.get_master_command_dict().items():
-            if " " not in key and "!stats" not in key and "!plague" not in key and "!help" not in key:
+            if "top" in key:
+                command_string += "!top "
+                for k, v in self.cd.command_dict.items():
+                    command_string += f"{k}, "
+            elif " " not in key and "!stats" not in key and "!plague" not in key and "!help" not in key:
                 command_string += f"{key} <{key.split('!')[1]}_name>\n"
             else:
                 command_string += f"{key}\n"
+        if command_string.endswith(", "):
+            # Remove space, then comma from the end of the string
+            command_string = command_string.strip()[:-1]
         command_string += "```"
         await message.channel.send(command_string)
 
@@ -296,7 +390,7 @@ class BotFunctions:
         try:
             return "{0:.2f}%".format((int(self.cleanse_string(bad)) / int(self.cleanse_string(total))) * 100)
         except ValueError:
-            return "Incomplete data"
+            return "0%"
 
     # This gets the partial username to avoid ugly text. e.g.: CoronaVirus#20109 because CoronaVirus.
     @staticmethod
@@ -334,6 +428,8 @@ class BotFunctions:
                         await message.channel.send("There was an error attempting to connect to the the stats server. ")
                     except TimeoutError:
                         await message.channel.send("There was an error attempting to connect to the the stats server. ")
+                    except discord.errors.HTTPException:
+                        await message.channel.send("Message too long, sorry. Have the idiot dev fix this.")
                     # We don't need to continue the loop, we found the key and executed the value.
                     break
 

@@ -4,3 +4,4 @@ discord.py
 beautifulsoup4
 discord
 python-dotenv
+natsort
