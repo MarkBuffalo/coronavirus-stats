@@ -109,41 +109,55 @@ class CountryData:
         if country.lower() in str(row).lower():
             return self.get_country_info(str(rows[counter].findChildren()[0]), rows, counter)
 
-    def get_country_stats(self, markup, country):
+    @staticmethod
+    def get_country_stats(markup, country):
         soup = BeautifulSoup(markup, "html.parser")
-        # Only get things from the table so we can ignore the rest of the html.
-        tables = soup.findChildren("table")
-        rows = tables[0].findChildren("tr")
+        table = soup.findChildren("table", {"id": "main_table_countries_today"})
+        rows = table[0].findChildren("tr")
 
         new_list = []
-        counter = 0
-        for row in rows:
-            # Attempt to get stats for a particular country in the form of a list object.
-            new_list = self.get_country_list(rows, row, counter, country)
-            # If we got what we want from the list, just break out of this loop.
-            if new_list:
-                break
-            counter += 1
 
-        # Then we're going to return this list as a reconstructed dictionary
-        # so we can have the same function displaying all results.
+        for i in range(9, len(rows)):
+            tds = rows[i].findChildren("td")
+            current_country = tds[1].text.lower()
+            if current_country == country:
+                total_cases = tds[2].text
+                new_cases = tds[3].text
+                total_deaths = tds[4].text
+                new_deaths = tds[5].text
+                total_recovered = tds[6].text
+                active_cases = tds[7].text
+                serious_critical = tds[8].text
+                cases_1m = tds[9].text
+                deaths_1m = tds[10].text
+                total_tests = tds[11].text
+                tests_1m = tds[12].text
+
+                death_rate = bf.get_rate(total_deaths, total_cases)
+                recovery_rate = bf.get_rate(total_recovered, total_cases)
+
+                new_list.append([current_country, total_cases, new_cases, total_deaths, new_deaths, total_recovered,
+                                 active_cases, serious_critical, cases_1m, deaths_1m, total_tests, tests_1m,
+                                 death_rate, recovery_rate])
+
+                break
+
         return {
-            "Country": new_list[0],
-            "Total Cases": new_list[1],
-            "New Cases": new_list[2],
-            "Death Rate": bf.get_rate(new_list[3], new_list[1]),
-            "Recovery Rate": bf.get_rate(new_list[5], new_list[1]),
-            "Total Deaths": new_list[3],
-            "New Deaths": new_list[4],
-            "Total Recovered": new_list[5],
-            "Active Cases": new_list[6],
-            "Serious/Critical": new_list[7],
-        } if new_list is not None else None  # Unless we have nothing...
+            "Country": new_list[0][0],
+            "Total Cases": new_list[0][1],
+            "New Cases": new_list[0][2],
+            "Death Rate": new_list[0][12],
+            "Recovery Rate": new_list[0][13],
+            "Total Deaths": new_list[0][3],
+            "New Deaths": new_list[0][4],
+            "Total Recovered": new_list[0][5],
+            "Active Cases": new_list[0][6],
+            "Serious/Critical": new_list[0][1],
+        }
 
     @staticmethod
     def get_main_stats(text):
-        # This function's code is old, and does not use BeautifulSoup.
-        # Will get around to fixing that some day.
+        # Old code... no beautiful soup. Will soon be deprecated.
         corona_cases = text.split('<h1>Coronavirus Cases:</h1>')[1].\
             split('<span style="color:#aaa">')[1].split('</span>')[0]
 
@@ -196,31 +210,29 @@ class StateData:
                 # And populate.
 
                 # We're gonna clean these strings first so we can use them again without ugly repetition.
-                total_cases = bf.cleanse_state_string(td[1].contents)
-                total_deaths = bf.cleanse_state_string(td[3].contents)
-                active_cases = bf.cleanse_state_string(td[5].contents)
+                total_cases = td[1].text.strip()
+                total_deaths = td[3].text.strip()
+                active_cases = td[5].text.strip()
                 # They took off the recovery total. We can postulate this information anyway based on current data.
                 total_recovered = 0
 
                 # Let's see if we even get a value in the first place.
                 try:
-                    total_recovered = (int(bf.cleanse_state_string(total_cases))
-                                       - int(bf.cleanse_state_string(total_deaths))
-                                       - int(bf.cleanse_state_string(active_cases)))
+                    total_recovered = (int(total_cases) - int(total_deaths) - int(active_cases))
                 # Nope. And we don't have to do anything because it's already 0.
                 except ValueError:
-                    total_recovered = "0"
+                    total_recovered = "Unknown"
 
                 return {
-                    "State": bf.cleanse_state_string(td[0].contents),
-                    "Total Cases": total_cases,
-                    "New Cases": bf.cleanse_state_string(td[2].contents),
-                    "Total Deaths": total_deaths,
-                    "New Deaths": bf.cleanse_state_string(td[4].contents),
+                    "State": td[0].text.strip(),
+                    "Total Cases": total_cases.strip(),
+                    "New Cases": td[2].text.strip(),
+                    "Total Deaths": total_deaths.strip(),
+                    "New Deaths": td[4].text.strip(),
                     "Active Cases": active_cases,
                     "Death Rate": bf.get_rate(total_deaths, total_cases),
                     "Total Recovered": total_recovered,
-                    "Recovery Rate": bf.get_rate(total_recovered, total_cases)
+                    "Recovery Rate": bf.get_rate(total_recovered, total_cases) if total_recovered is not "Unknown" else "Unknown"
                 }
         return None
 
@@ -313,7 +325,7 @@ class BotCommandResults:
 
         # Get info from the page on worldometers.
         response = requests.get("https://www.worldometers.info/coronavirus/")
-        country_dict = self.cd.get_country_stats(response.text, country_string.strip())
+        country_dict = self.cd.get_country_stats(response.text, country_string.strip().lower())
 
         # We got something, right?
         if country_dict:
